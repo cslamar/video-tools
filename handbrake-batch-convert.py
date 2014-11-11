@@ -26,7 +26,7 @@ def createConversionQueue(videos_list):
     scrubbed_names = []
     for name in videos_list:
         file_name, file_extension = os.path.splitext(name)
-        scrubbed_names.append((name, re.escape(file_name) + default_extension))
+        scrubbed_names.append((re.escape(name), re.escape(file_name) + default_extension))
 
     return scrubbed_names
 
@@ -42,9 +42,6 @@ video_extensions = ('.mkv', '.avi', '.mp4', '.m4v', '.flv', '.mov')
 handbrake_path = '/usr/local/bin/HandBrakeCLI'
 preset = 'AppleTV 3'
 default_extension = '.m4v'
-
-# print args.source
-# print args.output
 
 
 convert_queue = buildSourceQueue(args.source)
@@ -63,5 +60,5 @@ for f in output_queue:
     print('DEBUG: ' + f[1])
 print('----')
 
-# for source_video in convert_queue:
-#     print(handbrake_path + ' -v -Z \'' + preset + '\' -i ' + source_video + ' -o ' + args.output)
+for source_file, output_file in output_queue:
+    print(handbrake_path + ' -v -Z \'' + preset + '\' -i ' + source_file + ' -o ' + args.output + '/' + output_file)
