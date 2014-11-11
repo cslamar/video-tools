@@ -26,7 +26,7 @@ def createConversionQueue(videos_list):
     scrubbed_names = []
     for name in videos_list:
         file_name, file_extension = os.path.splitext(name)
-        scrubbed_names.append(re.escape(file_name) + default_extension)
+        scrubbed_names.append((name, re.escape(file_name) + default_extension))
 
     return scrubbed_names
 
@@ -48,24 +48,20 @@ default_extension = '.m4v'
 
 
 convert_queue = buildSourceQueue(args.source)
+output_queue = createConversionQueue(convert_queue)
 
 print('Converting following files to ' + args.output)
 print('----')
 
 for f in convert_queue:
     print('DEBUG: ' + f)
-#
 print('----')
-output_queue = createConversionQueue(convert_queue)
 
 print('Scrubbed names are:')
 
 for f in output_queue:
-    print('DEBUG: ' + f)
-
+    print('DEBUG: ' + f[1])
 print('----')
-
-
 
 # for source_video in convert_queue:
 #     print(handbrake_path + ' -v -Z \'' + preset + '\' -i ' + source_video + ' -o ' + args.output)
