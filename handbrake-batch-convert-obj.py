@@ -3,7 +3,6 @@ import os
 import argparse
 import re
 
-#os.path.join(path, '')
 
 class VideoFile:
     video_info = {}
@@ -37,7 +36,6 @@ def buildSourceQueue(source_files, output_directory):
 
 
 def listdirFullPath(path_to_file):
-    # output_path_to_dir = os.path.dirname(path_to_file)
     output_path_to_dir = path_to_file
     output_path_to_file = os.listdir(path_to_file)
     return (output_path_to_dir, output_path_to_file)
@@ -45,6 +43,7 @@ def listdirFullPath(path_to_file):
 parser = argparse.ArgumentParser(description='HandBrake Conversion Tool!')
 parser.add_argument('-s', '--source', help='path to source directory [default: current directory]', default=os.path.abspath(os.curdir))
 parser.add_argument('-o', '--output', help='path to output directory', required=True)
+parser.add_argument('-t', '--test', help='Run through without actually converting', action='store_true', default=False)
 # parser.add_argument('-R', '--recursion', help='recursively select all video files in file tree', default=False)
 args = parser.parse_args()
 
@@ -58,9 +57,9 @@ conversion_queue = buildSourceQueue(args.source, args.output)
 
 for item in conversion_queue:
     print('Running...')
-    print('### ' + item.video_info['source_directory'] + '###')
     run_command = handbrake_path + ' -v -Z \'' + preset + '\' -i ' + \
                   item.video_info['scrubbed_input_directory'] + item.video_info['scrubbed_input_file_name'] + \
                   ' -o ' + item.video_info['scrubbed_output_directory_path'] + item.video_info['scrubbed_output_file_name']
     print(run_command)
-    os.system(run_command)
+    if args.test != True:
+        os.system(run_command)
