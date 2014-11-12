@@ -12,29 +12,16 @@ class VideoFile:
         self.__directory_path = file_info[0]
         source_file_name, source_file_extension = os.path.splitext(file_info[1])
 
-        self.video_info = {
-            'source_directory': os.path.join(file_info[0], ''),
-            'source_file': source_file_name,
-            'source_file_extension': source_file_extension,
-            'target_extension': target_extension,
-            'output_directory': os.path.join(output_directory, ''),
-            'scrubbed_input_file_name': re.escape(source_file_name) + source_file_extension,
-            'scrubbed_output_file_name': re.escape(source_file_name) + target_extension,
-            'scrubbed_output_directory_path': re.escape(output_directory),
-            'scrubbed_input_directory': re.escape(file_info[0]),
-        }
-    # def getFile(self):
-    #     return self.__file_name + self.__file_extension
-    #
-    # def getDir(self):
-    #     return self.__directory_path
+        self.video_info['source_directory'] = os.path.join(file_info[0], '')
+        self.video_info['source_file'] = source_file_name
+        self.video_info['source_file_extension'] = source_file_extension
+        self.video_info['target_extension'] = target_extension
+        self.video_info['output_directory'] = os.path.join(output_directory, '')
 
-    # def getFullPath(self):
-    #     # return (self.__directory_path + '/' + re.escape(self.__file_name) + self.__file_extension,
-    #     #         self.__scrubbed_directory_path + '/' + re.escape(self.__scrubbed_file_name) + self.__target_extension)
-    #     return (self.video_info['source_directory'] + '/' + self.video_info['source_file'] + self.video_info['source_file_extension'],
-    #
-    #     )
+        self.video_info['scrubbed_input_directory'] = re.escape(self.video_info['source_directory'])
+        self.video_info['scrubbed_input_file_name'] = re.escape(self.video_info['source_file']) + self.video_info['source_file_extension']
+        self.video_info['scrubbed_output_file_name'] = re.escape(self.video_info['source_file']) + self.video_info['target_extension']
+        self.video_info['scrubbed_output_directory_path'] = re.escape(self.video_info['output_directory'])
 
 
 def buildSourceQueue(source_files, output_directory):
@@ -76,4 +63,4 @@ for item in conversion_queue:
                   item.video_info['scrubbed_input_directory'] + item.video_info['scrubbed_input_file_name'] + \
                   ' -o ' + item.video_info['scrubbed_output_directory_path'] + item.video_info['scrubbed_output_file_name']
     print(run_command)
-    # os.system(run_command)
+    os.system(run_command)
