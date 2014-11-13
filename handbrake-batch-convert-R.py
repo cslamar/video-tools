@@ -31,9 +31,7 @@ def buildSourceQueueR(source_files, output_directory):
             if video_extensions.__contains__(file_extension):
                 # v = VideoFile((source_files, source_vid), output_directory)
                 v = VideoFile((source_files, file_name), output_directory)
-                print(v.video_info['source_file'])
                 files_queue.append(v)
-                print(files_queue[0].video_info['source_file'])
 
     return files_queue
 
@@ -71,7 +69,7 @@ parser = argparse.ArgumentParser(description='HandBrake Conversion Tool!')
 parser.add_argument('-s', '--source', help='path to source directory [default: current directory]', default=os.path.abspath(os.curdir))
 parser.add_argument('-o', '--output', help='path to output directory', required=True)
 parser.add_argument('-t', '--test', help='Run through without actually converting', action='store_true', default=False)
-# parser.add_argument('-R', '--recursion', help='recursively select all video files in file tree', default=False)
+parser.add_argument('-R', '--recursion', help='recursively select all video files in file tree', action='store_true', default=False)
 args = parser.parse_args()
 
 video_extensions = ('.mkv', '.avi', '.mp4', '.m4v', '.flv', '.mov')
