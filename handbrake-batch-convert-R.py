@@ -54,6 +54,13 @@ def listdirFullPath(path_to_file):
     return (output_path_to_dir, output_path_to_file)
 
 
+def getFiles(path_to_file):
+    for dir_list, subdir_list, file_list in os.walk(path_to_file):
+        for file_name in file_list:
+            dir_path = os.path.join(os.path.abspath(dir_list), '')
+            print(dir_path + file_name)
+
+
 def doConversion(queue):
     for item in queue:
         print('Running...')
@@ -80,7 +87,11 @@ default_extension = '.m4v'
 
 conversion_queue = buildSourceQueueR(args.source, args.output)
 
-for item in conversion_queue:
-    print(item.video_info['source_directory'] + item.video_info['source_file'] + item.video_info['source_file_extension'])
+# for item in conversion_queue:
+#     print(item.video_info['source_directory'] + item.video_info['source_file'] + item.video_info['source_file_extension'])
 
 # doConversion(conversion_queue)
+
+getFiles(args.source)
+# for i in getFiles(args.source):
+#     print(i)
