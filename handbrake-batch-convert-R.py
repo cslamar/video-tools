@@ -25,13 +25,13 @@ class VideoFile:
 
 def buildSourceQueueR(source_files, output_directory):
     files_queue = []
-    for in_file in listdirFullPath(source_files):
-        for source_vid in in_file:
-            file_name, file_extension = os.path.splitext(source_vid)
-            if video_extensions.__contains__(file_extension):
-                # v = VideoFile((source_files, source_vid), output_directory)
-                v = VideoFile((source_files, file_name), output_directory)
-                files_queue.append(v)
+
+    # for in_file in listdirFullPath(source_files):
+    for source_path, source_vid in getFiles(source_files):
+        file_name, file_extension = os.path.splitext(source_vid)
+        if video_extensions.__contains__(file_extension):
+            v = VideoFile((source_files, file_name + file_extension), output_directory)
+            files_queue.append(v)
 
     return files_queue
 
@@ -55,10 +55,13 @@ def listdirFullPath(path_to_file):
 
 
 def getFiles(path_to_file):
+    full_path_list = []
     for dir_list, subdir_list, file_list in os.walk(path_to_file):
         for file_name in file_list:
             dir_path = os.path.join(os.path.abspath(dir_list), '')
-            print(dir_path + file_name)
+            full_path_list.append((dir_path, file_name))
+
+    return full_path_list
 
 
 def doConversion(queue):
@@ -85,13 +88,13 @@ handbrake_path = '/usr/local/bin/HandBrakeCLI'
 preset = 'AppleTV 3'
 default_extension = '.m4v'
 
-conversion_queue = buildSourceQueueR(args.source, args.output)
+if args.recursion:
+    conversion_queue = buildSourceQueueR(args.source, args.output)
+else:
+    conversion_queue = buildSourceQueue(args.source, args.output)
 
 # for item in conversion_queue:
-#     print(item.video_info['source_directory'] + item.video_info['source_file'] + item.video_info['source_file_extension'])
+#     print(item.video_info['source_file'] + item.video_info['source_file_extension'])
 
-# doConversion(conversion_queue)
+doConversion(conversion_queue)
 
-getFiles(args.source)
-# for i in getFiles(args.source):
-#     print(i)
