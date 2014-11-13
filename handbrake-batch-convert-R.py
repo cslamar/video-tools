@@ -25,24 +25,12 @@ class VideoFile:
 
 def buildSourceQueueR(source_files, output_directory):
     files_queue = []
-<<<<<<< HEAD
-    for in_file in listdirFullPath(source_files):
-        for source_vid in in_file:
-            file_name, file_extension = os.path.splitext(source_vid)
-            if video_extensions.__contains__(file_extension):
-                # v = VideoFile((source_files, source_vid), output_directory)
-                v = VideoFile((source_files, file_name), output_directory)
-                print(v.video_info['source_file'])
-                files_queue.append(v)
-                print(files_queue[0].video_info['source_file'])
-=======
 
     for source_path, source_vid in getFiles(source_files):
         file_name, file_extension = os.path.splitext(source_vid)
         if video_extensions.__contains__(file_extension):
             v = VideoFile((source_files, file_name + file_extension), output_directory)
             files_queue.append(v)
->>>>>>> add-recursion
 
     return files_queue
 
@@ -65,8 +53,6 @@ def listdirFullPath(path_to_file):
     return (output_path_to_dir, output_path_to_file)
 
 
-<<<<<<< HEAD
-=======
 def getFiles(path_to_file):
     full_path_list = []
     for dir_list, subdir_list, file_list in os.walk(path_to_file):
@@ -77,7 +63,6 @@ def getFiles(path_to_file):
     return full_path_list
 
 
->>>>>>> add-recursion
 def doConversion(queue):
     for item in queue:
         print('Running...')
@@ -93,11 +78,7 @@ parser = argparse.ArgumentParser(description='HandBrake Conversion Tool!')
 parser.add_argument('-s', '--source', help='path to source directory [default: current directory]', default=os.path.abspath(os.curdir))
 parser.add_argument('-o', '--output', help='path to output directory', required=True)
 parser.add_argument('-t', '--test', help='Run through without actually converting', action='store_true', default=False)
-<<<<<<< HEAD
-# parser.add_argument('-R', '--recursion', help='recursively select all video files in file tree', default=False)
-=======
 parser.add_argument('-R', '--recursion', help='recursively select all video files in file tree', action='store_true', default=False)
->>>>>>> add-recursion
 args = parser.parse_args()
 
 video_extensions = ('.mkv', '.avi', '.mp4', '.m4v', '.flv', '.mov')
@@ -106,14 +87,6 @@ handbrake_path = '/usr/local/bin/HandBrakeCLI'
 preset = 'AppleTV 3'
 default_extension = '.m4v'
 
-<<<<<<< HEAD
-conversion_queue = buildSourceQueueR(args.source, args.output)
-
-for item in conversion_queue:
-    print(item.video_info['source_directory'] + item.video_info['source_file'] + item.video_info['source_file_extension'])
-
-# doConversion(conversion_queue)
-=======
 if args.recursion:
     conversion_queue = buildSourceQueueR(args.source, args.output)
 else:
@@ -122,4 +95,3 @@ else:
 
 doConversion(conversion_queue)
 
->>>>>>> add-recursion
