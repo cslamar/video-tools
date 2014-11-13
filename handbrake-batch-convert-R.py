@@ -37,7 +37,6 @@ def buildSourceQueueR(source_files, output_directory):
                 print(files_queue[0].video_info['source_file'])
 =======
 
-    # for in_file in listdirFullPath(source_files):
     for source_path, source_vid in getFiles(source_files):
         file_name, file_extension = os.path.splitext(source_vid)
         if video_extensions.__contains__(file_extension):
@@ -120,8 +119,6 @@ if args.recursion:
 else:
     conversion_queue = buildSourceQueue(args.source, args.output)
 
-# for item in conversion_queue:
-#     print(item.video_info['source_file'] + item.video_info['source_file_extension'])
 
 doConversion(conversion_queue)
 
